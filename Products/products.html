@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order Management</title>
+    <link rel="stylesheet" href="products.css">
+
+
+    <style>
+     
+    </style>
+</head>
+<body>
+
+
+<!-- Sidebar Navigation -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">IMS</div>
+    </div>
+   
+    <div class="user-profile">
+        <div class="user-avatar">
+            <img src="/api/placeholder/80/80" alt="User Avatar">
+        </div>
+        <div class="user-name">JOHN DOE</div>
+    </div>
+   
+    <ul class="sidebar-menu">
+        <!-- Dashboard Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <i>📊</i> DASHBOARD
+            </a>
+        </li>
+       
+        <!-- Reports Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <i>📄</i> REPORTS
+            </a>
+        </li>
+       
+        <!-- Product Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <i>📦</i> PRODUCT
+                <span class="arrow">▸</span>
+            </a>
+            <div class="submenu">
+                <!-- Submenu items would go here -->
+            </div>
+        </li>
+       
+        <!-- Supplier Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <i>🏭</i> SUPPLIER
+                <span class="arrow">▸</span>
+            </a>
+            <div class="submenu">
+                <a href="#" class="submenu-item">
+                    <i>👁️</i> View Supplier
+                </a>
+                <a href="#" class="submenu-item">
+                    <i>➕</i> Add Supplier
+                </a>
+            </div>
+        </li>
+       
+        <!-- Purchase Order Menu Item - Active -->
+        <li class="menu-item">
+            <a href="#" class="menu-link active-menu" onclick="toggleSubmenu(this)">
+                <i>🛒</i> PURCHASE ORDER
+                <span class="arrow">▾</span>
+            </a>
+            <div class="submenu open">
+                <a href="#" class="submenu-item" onclick="showCreateOrder(event)">
+                    <i>➕</i> Create Order
+                </a>
+                <a href="#" class="submenu-item active" onclick="showOrderList(event)">
+                    <i>👁️</i> View Orders
+                </a>
+            </div>
+        </li>
+       
+        <!-- User Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <i>👤</i> USER
+                <span class="arrow">▸</span>
+            </a>
+            <div class="submenu">
+                <!-- Submenu items would go here -->
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+<!-- Main Content Area -->
+<div class="main-content">
+    <div class="top-bar">
+        <button id="menu-toggle">☰</button>
+        <div>
+            <button class="btn">📋</button>
+            <button class="btn">RBX</button>
+            <button class="btn">⚙️</button>
+            <button class="btn">🔍</button>
+            <button class="btn">🔔</button>
+            <button class="btn">Log-out</button>
+        </div>
+    </div>
+   
+    <!-- Purchase Order List View -->
+    <div id="orderListView" class="content-container">
+        <h2 class="content-title">List of Purchase Orders</h2>
+       
+        <table id="orderTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>BATCH #</th>
+                    <th>PRODUCTS</th>
+                    <th>SUPPLIER</th>
+                    <th>QUANTITY ORDERED</th>
+                    <th>QUANTITY RECEIVED</th>
+                    <th>STATUS</th>
+                    <th>ORDERED BY</th>
+                    <th>CREATED DATE</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>1682655207</td>
+                    <td>KitKat</td>
+                    <td>Nestle</td>
+                    <td>12</td>
+                    <td>6</td>
+                    <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                    <td>John Doe</td>
+                    <td>2023-04-28 06:13:27</td>
+                    <td>
+                        <button class="btn btn-edit action-btn">View</button>
+                        <button class="btn btn-danger action-btn">Cancel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>1682655207</td>
+                    <td>KitKat</td>
+                    <td>Robinson</td>
+                    <td>32</td>
+                    <td>8</td>
+                    <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                    <td>John Doe</td>
+                    <td>2023-04-28 06:13:27</td>
+                    <td>
+                        <button class="btn btn-edit action-btn">View</button>
+                        <button class="btn btn-danger action-btn">Cancel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>1682655197</td>
+                    <td>Nescafe2</td>
+                    <td>Nestle</td>
+                    <td>32</td>
+                    <td>9</td>
+                    <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                    <td>John Doe</td>
+                    <td>2023-04-28 06:13:17</td>
+                    <td>
+                        <button class="btn btn-edit action-btn">View</button>
+                        <button class="btn btn-danger action-btn">Cancel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>1682655090</td>
+                    <td>Milo</td>
+                    <td>Test Supplier2</td>
+                    <td>24</td>
+                    <td>24</td>
+                    <td><span class="status-badge status-complete">Complete</span></td>
+                    <td>John Doe</td>
+                    <td>2023-04-28 06:10:45</td>
+                    <td>
+                        <button class="btn btn-edit action-btn">View</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+       
+        <div class="text-right">
+            <span id="orderCount">4 PURCHASE ORDERS</span>
+        </div>
+    </div>
+   
+    <!-- Create Order Form -->
+    <div id="createOrderForm" class="content-container hidden">
+        <h2 class="content-title">Create Purchase Order</h2>
+       
+        <form id="orderForm" class="order-form">
+            <div class="order-header">
+                <div class="order-title">
+                    <i>🛒</i> New Purchase Order
+                </div>
+                <div>
+                    <span>Order Date: </span>
+                    <span id="currentDate">May 8, 2025</span>
+                </div>
+            </div>
+           
+            <!-- Product Row -->
+            <div class="product-row">
+                <div class="supplier-name">ROBINSON</div>
+                <div class="product-select">
+                    <label for="product1">Product</label>
+                    <select id="product1">
+                        <option value="milo">Milo</option>
+                        <option value="kitkat">KitKat</option>
+                    </select>
+                </div>
+                <div class="quantity-input">
+                    <label for="quantity1">Quantity</label>
+                    <input type="number" id="quantity1" value="143" min="1">
+                </div>
+                <button type="button" class="remove-btn">Remove</button>
+            </div>
+           
+            <button type="button" class="add-product-btn">Add Another Product</button>
+           
+            <div class="text-right">
+                <button type="button" class="btn btn-danger" onclick="cancelForm()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="products.js">
+   
+</script>
+
+
+</body>
+</html>
+
