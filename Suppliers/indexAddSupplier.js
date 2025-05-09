@@ -57,27 +57,51 @@ function saveOrdersToLocalStorage() {
     localStorage.setItem('purchaseOrderCounter', purchaseOrderCounter);
 }
 
-/**
- * Menu and Section Toggle Functions
- */
-// Toggle submenu open/close
+function closeAllSubmenusExcept(exceptElement) {
+    // Find all submenu elements
+    const allSubmenus = document.querySelectorAll('.submenu');
+    const allArrows = document.querySelectorAll('.arrow');
+    
+    // Close all submenus and update arrows
+    allSubmenus.forEach((submenu, index) => {
+        if (submenu !== exceptElement) {
+            submenu.classList.remove('open');
+            // Find the corresponding arrow and update it
+            if (allArrows[index]) {
+                allArrows[index].textContent = '▸';
+            }
+        }
+    });
+}
+
+// Enhanced toggleSubmenu to ensure only one submenu is open
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
-    submenu.classList.toggle('open');
-    
-    // Toggle arrow direction
     const arrow = element.querySelector('.arrow');
-    if (arrow.textContent === '▸') {
-        arrow.textContent = '▾';
+    
+    // Toggle the current submenu
+    if (submenu.classList.contains('open')) {
+        submenu.classList.remove('open');
+        if (arrow) arrow.textContent = '▸';
     } else {
-        arrow.textContent = '▸';
+        // Close all other submenus before opening this one
+        closeAllSubmenusExcept(submenu);
+        
+        submenu.classList.add('open');
+        if (arrow) arrow.textContent = '▾';
     }
 }
 
-// Toggle between main sections
+// Enhanced toggleSection function to ensure proper navigation
 function toggleSection(showSectionId, hideSectionId) {
+    // Close all sections first
+    const allSections = ['supplierSection', 'purchaseOrderSection'];
+    allSections.forEach(sectionId => {
+        document.getElementById(sectionId).classList.add('hidden');
+    });
+    
+    // Then show only the requested section
     document.getElementById(showSectionId).classList.remove('hidden');
-    document.getElementById(hideSectionId).classList.add('hidden');
     
     // Reset active states in menu
     document.querySelectorAll('.menu-link').forEach(link => {
@@ -87,20 +111,54 @@ function toggleSection(showSectionId, hideSectionId) {
     // Set active state for the current section's menu link
     if (showSectionId === 'supplierSection') {
         document.querySelector('.menu-item:nth-child(4) .menu-link').classList.add('active-menu');
+        // Open supplier submenu
+        const supplierSubmenu = document.querySelector('.menu-item:nth-child(4) .submenu');
+        if (supplierSubmenu) {
+            closeAllSubmenusExcept(supplierSubmenu);
+            supplierSubmenu.classList.add('open');
+            const arrow = document.querySelector('.menu-item:nth-child(4) .arrow');
+            if (arrow) arrow.textContent = '▾';
+        }
     } else if (showSectionId === 'purchaseOrderSection') {
         document.querySelector('.menu-item:nth-child(5) .menu-link').classList.add('active-menu');
+        // Open purchase order submenu
+        const poSubmenu = document.querySelector('.menu-item:nth-child(5) .submenu');
+        if (poSubmenu) {
+            closeAllSubmenusExcept(poSubmenu);
+            poSubmenu.classList.add('open');
+            const arrow = document.querySelector('.menu-item:nth-child(5) .arrow');
+            if (arrow) arrow.textContent = '▾';
+        }
     }
 }
-
-/**
- * Supplier Functions
- */
-// Show supplier list view
+// Enhanced showSupplierList to ensure only one view is visible
 function showSupplierList(event) {
     if (event) event.preventDefault();
     
+    // Hide all content views first
     document.getElementById('supplierListView').classList.remove('hidden');
     document.getElementById('addSupplierForm').classList.add('hidden');
+    document.getElementById('orderListView').classList.add('hidden');
+    document.getElementById('createOrderForm').classList.add('hidden');
+    
+    // Ensure supplier section is visible
+    document.getElementById('supplierSection').classList.remove('hidden');
+    document.getElementById('purchaseOrderSection').classList.add('hidden');
+    
+    // Update active states in main menu
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.classList.remove('active-menu');
+    });
+    document.querySelector('.menu-item:nth-child(4) .menu-link').classList.add('active-menu');
+    
+    // Open supplier submenu and close others
+    const supplierSubmenu = document.querySelector('.menu-item:nth-child(4) .submenu');
+    if (supplierSubmenu) {
+        closeAllSubmenusExcept(supplierSubmenu);
+        supplierSubmenu.classList.add('open');
+        const arrow = document.querySelector('.menu-item:nth-child(4) .arrow');
+        if (arrow) arrow.textContent = '▾';
+    }
     
     // Update active state in supplier submenu only
     const supplierMenuItems = document.querySelectorAll('.menu-item:nth-child(4) .submenu-item');
@@ -120,12 +178,34 @@ function showSupplierList(event) {
     renderSupplierTable();
 }
 
-// Show add supplier form
+// Enhanced showAddSupplierForm to ensure only one view is visible
 function showAddSupplierForm(event) {
     if (event) event.preventDefault();
     
+    // Hide all content views first
     document.getElementById('supplierListView').classList.add('hidden');
     document.getElementById('addSupplierForm').classList.remove('hidden');
+    document.getElementById('orderListView').classList.add('hidden');
+    document.getElementById('createOrderForm').classList.add('hidden');
+    
+    // Ensure supplier section is visible
+    document.getElementById('supplierSection').classList.remove('hidden');
+    document.getElementById('purchaseOrderSection').classList.add('hidden');
+    
+    // Update active states in main menu
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.classList.remove('active-menu');
+    });
+    document.querySelector('.menu-item:nth-child(4) .menu-link').classList.add('active-menu');
+    
+    // Open supplier submenu and close others
+    const supplierSubmenu = document.querySelector('.menu-item:nth-child(4) .submenu');
+    if (supplierSubmenu) {
+        closeAllSubmenusExcept(supplierSubmenu);
+        supplierSubmenu.classList.add('open');
+        const arrow = document.querySelector('.menu-item:nth-child(4) .arrow');
+        if (arrow) arrow.textContent = '▾';
+    }
     
     // Update active state in supplier submenu only
     const supplierMenuItems = document.querySelectorAll('.menu-item:nth-child(4) .submenu-item');
@@ -286,8 +366,30 @@ function deleteSupplier(id) {
 function showOrderList(event) {
     if (event) event.preventDefault();
     
+    // Hide all content views first
     document.getElementById('orderListView').classList.remove('hidden');
     document.getElementById('createOrderForm').classList.add('hidden');
+    document.getElementById('supplierListView').classList.add('hidden');
+    document.getElementById('addSupplierForm').classList.add('hidden');
+    
+    // Ensure purchase order section is visible
+    document.getElementById('supplierSection').classList.add('hidden');
+    document.getElementById('purchaseOrderSection').classList.remove('hidden');
+    
+    // Update active states in main menu
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.classList.remove('active-menu');
+    });
+    document.querySelector('.menu-item:nth-child(5) .menu-link').classList.add('active-menu');
+    
+    // Open purchase order submenu and close others
+    const poSubmenu = document.querySelector('.menu-item:nth-child(5) .submenu');
+    if (poSubmenu) {
+        closeAllSubmenusExcept(poSubmenu);
+        poSubmenu.classList.add('open');
+        const arrow = document.querySelector('.menu-item:nth-child(5) .arrow');
+        if (arrow) arrow.textContent = '▾';
+    }
     
     // Update active state in purchase order submenu only
     const orderMenuItems = document.querySelectorAll('.menu-item:nth-child(5) .submenu-item');
@@ -306,13 +408,34 @@ function showOrderList(event) {
     // Update order table
     renderOrderTable();
 }
-
-// Show create order form
+// Enhanced showCreateOrder to ensure only one view is visible
 function showCreateOrder(event) {
     if (event) event.preventDefault();
     
+    // Hide all content views first
     document.getElementById('orderListView').classList.add('hidden');
     document.getElementById('createOrderForm').classList.remove('hidden');
+    document.getElementById('supplierListView').classList.add('hidden');
+    document.getElementById('addSupplierForm').classList.add('hidden');
+    
+    // Ensure purchase order section is visible
+    document.getElementById('supplierSection').classList.add('hidden');
+    document.getElementById('purchaseOrderSection').classList.remove('hidden');
+    
+    // Update active states in main menu
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.classList.remove('active-menu');
+    });
+    document.querySelector('.menu-item:nth-child(5) .menu-link').classList.add('active-menu');
+    
+    // Open purchase order submenu and close others
+    const poSubmenu = document.querySelector('.menu-item:nth-child(5) .submenu');
+    if (poSubmenu) {
+        closeAllSubmenusExcept(poSubmenu);
+        poSubmenu.classList.add('open');
+        const arrow = document.querySelector('.menu-item:nth-child(5) .arrow');
+        if (arrow) arrow.textContent = '▾';
+    }
     
     // Update active state in purchase order submenu only
     const orderMenuItems = document.querySelectorAll('.menu-item:nth-child(5) .submenu-item');
@@ -340,4 +463,3 @@ function showCreateOrder(event) {
     // Populate supplier dropdown
     populateSupplierDropdown();
 }
-
