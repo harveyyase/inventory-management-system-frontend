@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="indexAddSupplier.css">
     <link rel="stylesheet" href="../Products/products.css">
     <link rel="stylesheet" href="../Users/users.css">
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 
 </head>
 <body>
@@ -27,7 +31,7 @@
     <ul class="sidebar-menu">
         <!-- Dashboard Menu Item -->
         <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="#" class="menu-link" onclick="toggleSection('dashboardSection', 'supplierSection', 'purchaseOrderSection', 'userSection'); closeAllSubmenus();">
                 <i>📊</i> DASHBOARD
             </a>
         </li>
@@ -103,6 +107,7 @@
     </ul>
 </div>
 
+
 <!-- Main Content Area -->
 <div class="main-content">
     <div class="top-bar">
@@ -110,6 +115,133 @@
         <div>
             
             <button class="btn">Log-out</button>
+        </div>
+    </div>
+   <div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">IMS</div>
+    </div>
+   
+    <div class="user-profile">
+        <div class="user-avatar">
+            <img src="/api/placeholder/80/80" alt="User Avatar">
+        </div>
+        <div class="user-name">JOHN DOE</div>
+    </div>
+   
+    <ul class="sidebar-menu">
+        <!-- Dashboard Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link" onclick="toggleSection('dashboardSection', 'supplierSection', 'purchaseOrderSection', 'userSection'); closeAllSubmenus();">
+                <i>📊</i> DASHBOARD
+            </a>
+        </li>
+       
+        <!-- Reports Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <i>📄</i> REPORTS
+            </a>
+        </li>
+       
+        <!-- Product Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <i>📦</i> PRODUCT
+                <span class="arrow">▸</span>
+            </a>
+            <div class="submenu">
+                <!-- Submenu items would go here -->
+            </div>
+        </li>
+       
+        <!-- Supplier Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link" onclick="toggleSubmenu(this); toggleSection('supplierSection', 'purchaseOrderSection', 'userSection', 'dashboardSection')">
+                <i>🏭</i> SUPPLIER
+                <span class="arrow">▸</span>
+            </a>
+            <div class="submenu">
+                <a href="#" class="submenu-item" onclick="showSupplierList(event)">
+                    <i>👁️</i> View Supplier
+                </a>
+                <a href="#" class="submenu-item" onclick="showAddSupplierForm(event)">
+                    <i>➕</i> Add Supplier
+                </a>
+            </div>
+        </li>
+       
+        <!-- Purchase Order Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link" onclick="toggleSubmenu(this); toggleSection('purchaseOrderSection', 'supplierSection', 'userSection', 'dashboardSection')">
+                <i>🛒</i> PURCHASE ORDER
+                <span class="arrow">▸</span>
+            </a>
+            <div class="submenu">
+                <a href="#" class="submenu-item" onclick="showCreateOrder(event)">
+                    <i>➕</i> Create Order
+                </a>
+                <a href="#" class="submenu-item" onclick="showOrderList(event)">
+                    <i>👁️</i> View Orders
+                </a>
+            </div>
+        </li>
+       
+        <!-- User Menu Item -->
+        <li class="menu-item">
+            <a href="#" class="menu-link" onclick="toggleSubmenu(this); toggleSection('userSection', 'supplierSection', 'purchaseOrderSection', 'dashboardSection')">
+                <i>👤</i> USER
+                <span class="arrow">▸</span>
+            </a>
+            <div class="submenu">
+                <a href="#" class="submenu-item" onclick="showUserList(event)">
+                    <i>👁️</i> View Users
+                </a>
+                <a href="#" class="submenu-item" onclick="openModal(event)">
+                    <i>➕</i> Add User
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+    
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="hidden">
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Purchase Orders By Status</div>
+                    <div class="card-options">≡</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="purchaseOrdersChart"></canvas>
+                </div>
+                <div class="chart-footer">Here is the breakdown of the purchase orders by status.</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Product Count Assigned To Supplier</div>
+                    <div class="card-options">≡</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="productCountChart"></canvas>
+                </div>
+                <div class="chart-footer">Here is the breakdown of products assigned to suppliers.</div>
+            </div>
+            
+            <div class="card" style="grid-column: 1 / span 2;">
+                <div class="card-header">
+                    <div class="card-title">Delivery History Per Day</div>
+                    <div class="card-options">≡</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="deliveryHistoryChart"></canvas>
+                </div>
+                <div class="chart-footer">Daily product delivery history.</div>
+            </div>
         </div>
     </div>
    
@@ -319,6 +451,7 @@
 <script src="../Products/main.js"></script>
 <script src="../Users/users.js"></script>
 <script src="suppliers.js"></script>
+<script src="../dashboard/dashboard.js"></script>
 
 
 </body>
