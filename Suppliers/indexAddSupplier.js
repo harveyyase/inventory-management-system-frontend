@@ -227,3 +227,57 @@ function showAddSupplierForm(event) {
 }
 
 // Save supplier data
+
+// ================================
+// PRODUCT MENU FUNCTIONALITY
+// ================================
+
+function showProductList(event) {
+    if (event) event.preventDefault();
+    document.getElementById('supplierSection').classList.add('hidden');
+    document.getElementById('purchaseOrderSection').classList.add('hidden');
+    document.getElementById('productListView').classList.remove('hidden');
+    document.getElementById('addProductForm').classList.add('hidden');
+    document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active-menu'));
+    document.querySelector('.menu-item:nth-child(3) .menu-link').classList.add('active-menu');
+
+    const productMenuItems = document.querySelectorAll('.menu-item:nth-child(3) .submenu-item');
+    productMenuItems.forEach(item => item.classList.remove('active'));
+    if (event?.target) event.target.classList.add('active');
+    else productMenuItems[0]?.classList.add('active');
+
+    renderProductTable();
+}
+
+function showAddProductForm(event) {
+    if (event) event.preventDefault();
+    document.getElementById('supplierSection').classList.add('hidden');
+    document.getElementById('purchaseOrderSection').classList.add('hidden');
+    document.getElementById('productListView').classList.add('hidden');
+    document.getElementById('addProductForm').classList.remove('hidden');
+    document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active-menu'));
+    document.querySelector('.menu-item:nth-child(3) .menu-link').classList.add('active-menu');
+
+    const productMenuItems = document.querySelectorAll('.menu-item:nth-child(3) .submenu-item');
+    productMenuItems.forEach(item => item.classList.remove('active'));
+    if (event?.target) event.target.classList.add('active');
+    else productMenuItems[1]?.classList.add('active');
+
+    document.getElementById('productForm')?.reset();
+}
+
+// Dummy product table renderer (replace with real logic)
+function renderProductTable() {
+    const container = document.getElementById('productTableContainer');
+    if (!container) return;
+    container.innerHTML = '<p>Product list goes here...</p>';
+}
+
+// Bind navigation on page load
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('view-product')?.addEventListener('click', showProductList);
+    document.getElementById('add-product')?.addEventListener('click', showAddProductForm);
+    loadSuppliersFromLocalStorage();
+    loadOrdersFromLocalStorage();
+    loadProductsFromLocalStorage();
+});
