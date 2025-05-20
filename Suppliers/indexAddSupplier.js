@@ -228,3 +228,92 @@ function showAddSupplierForm(event) {
 
 // Save supplier data
 
+
+
+
+function toggleSubmenu(linkEl) {
+    const submenu = linkEl.nextElementSibling;
+    if (submenu) {
+        submenu.classList.toggle('open');
+
+        // Optionally toggle the arrow rotation for visual cue
+        const arrow = linkEl.querySelector('.arrow');
+        if (arrow) {
+            arrow.style.transform = submenu.classList.contains('open') ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+    }
+}
+
+// Show one section, hide others
+function toggleSection(showId, ...hideIds) {
+    hideIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+
+    const showEl = document.getElementById(showId);
+    if (showEl) showEl.classList.remove('hidden');
+
+    if (showId === 'productSection') {
+        showProductList(); // default view for products tab
+    }
+}
+
+// Show product list view inside productSection
+function showProductList(event) {
+    if (event) event.preventDefault();
+
+    document.getElementById('productSection').classList.remove('hidden');
+    document.getElementById('productListView').classList.remove('hidden');
+    document.getElementById('addProductForm').classList.add('hidden');
+    // Hide other related forms if any...
+
+    // Update active menu link and submenu item
+    document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active-menu'));
+    document.querySelector('.menu-item:nth-child(3) > .menu-link').classList.add('active-menu');
+
+    const productSubItems = document.querySelectorAll('.menu-item:nth-child(3) .submenu-item');
+    productSubItems.forEach(item => item.classList.remove('active'));
+    if (event?.target) {
+        event.target.classList.add('active');
+    } else {
+        productSubItems[0]?.classList.add('active'); // View Product by default
+    }
+
+    renderProductTable(); // assuming you have this function
+}
+
+// Show add product form inside productSection
+function showAddProductForm(event) {
+    if (event) event.preventDefault();
+
+    document.getElementById('productSection').classList.remove('hidden');
+    document.getElementById('productListView').classList.add('hidden');
+    document.getElementById('addProductForm').classList.remove('hidden');
+
+    // Update active menu link and submenu item
+    document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active-menu'));
+    document.querySelector('.menu-item:nth-child(3) > .menu-link').classList.add('active-menu');
+
+    const productSubItems = document.querySelectorAll('.menu-item:nth-child(3) .submenu-item');
+    productSubItems.forEach(item => item.classList.remove('active'));
+    if (event?.target) {
+        event.target.classList.add('active');
+    } else {
+        productSubItems[1]?.classList.add('active'); // Add Product submenu by default
+    }
+
+    document.getElementById('productForm')?.reset(); // Reset form if needed
+}
+
+// Example placeholder for rendering product table (you probably have this already)
+function renderProductTable() {
+    // your existing code here
+}
+
+// On page load, you may want to initialize
+document.addEventListener('DOMContentLoaded', () => {
+    // Optionally initialize default view, etc.
+});
+
+
