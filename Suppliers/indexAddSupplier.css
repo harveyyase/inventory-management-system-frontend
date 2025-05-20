@@ -4,18 +4,22 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    
 }
 
 
 body {
     display: flex;
-    background-color: #f5f5f5;
+    background-color: #497249;
     color: #333;
     margin: 0;
     padding: 0;
     height: 100vh;
     overflow: hidden;
+   
+
 }
+
 
 
 /* ===== SIDEBAR STYLES ===== */
@@ -40,10 +44,11 @@ body {
 
 
 .logo {
-    color: #2ecc71;
+    color: #385e38;
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 10px;
+    
 }
 
 
@@ -100,6 +105,7 @@ body {
     color: #fff;
     text-decoration: none;
     cursor: pointer;
+
 }
 
 
@@ -166,23 +172,16 @@ body {
     padding: 20px;
     overflow-y: auto;
     height: 100vh;
+    
+
 }
 
 
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    height: 60px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
-}
+
 
 
 .content-container {
-    background-color: #fff;
+    background-color: #498149;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -191,10 +190,10 @@ body {
 
 
 .content-title {
-    border-left: 4px solid #2ecc71;
+    border-left: 4px solid #385e38;
     padding-left: 10px;
     margin-bottom: 20px;
-    color: #333;
+    color: white;
     font-size: 1.2rem;
 }
 
@@ -215,7 +214,7 @@ th, td {
 
 
 th {
-    background-color: #2ecc71;
+    background-color: #63a13f;
     color: white;
 }
 
@@ -253,6 +252,7 @@ input, select, textarea {
     cursor: pointer;
     color: white;
     font-weight: bold;
+    background: #15a829
 }
 
 
@@ -301,3 +301,6 @@ input, select, textarea {
     display: none;
 }
 
+.menu-toggle {
+    background: #63a13f;
+}

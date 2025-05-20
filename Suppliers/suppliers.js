@@ -57,6 +57,10 @@ function saveSupplier(e) {
     // Reset form and show supplier list
     document.getElementById('supplierForm').reset();
     currentEditId = null;
+    // Force refresh the supplier table
+    renderSupplierTable();
+
+    // Switch view to supplier list
     showSupplierList();
 }
 
@@ -156,7 +160,6 @@ function showOrderList(event) {
     // Open purchase order submenu and close others
     const poSubmenu = document.querySelector('.menu-item:nth-child(5) .submenu');
     if (poSubmenu) {
-        closeAllSubmenusExcept(poSubmenu);
         poSubmenu.classList.add('open');
         const arrow = document.querySelector('.menu-item:nth-child(5) .arrow');
         if (arrow) arrow.textContent = '▾';
@@ -181,6 +184,11 @@ function showOrderList(event) {
 }
 // Enhanced showCreateOrder to ensure only one view is visible
 function showCreateOrder(event) {
+
+    
+    loadSuppliersFromLocalStorage();
+    populateSupplierDropdown();
+
     if (event) event.preventDefault();
     
     // Hide all content views first
@@ -233,4 +241,50 @@ function showCreateOrder(event) {
     
     // Populate supplier dropdown
     populateSupplierDropdown();
+}
+
+// Populate supplier dropdown
+function populateSupplierDropdown() {
+    const supplierSelect = document.getElementById('supplier1');
+    if (!supplierSelect) return; // Guard against null element
+    
+    supplierSelect.innerHTML = '<option value="">Select Supplier</option>';
+    
+    console.log("Populating suppliers dropdown with:", suppliers);
+
+     if (suppliers && suppliers.length > 0) {
+        suppliers.forEach(supplier => {
+            const option = document.createElement('option');
+            option.value = supplier.id;
+            option.textContent = supplier.name;
+            supplierSelect.appendChild(option);
+        });
+    } else {
+        console.warn("No suppliers found to populate dropdown");
+    }
+}
+
+// Handle supplier selection (populate product dropdown)
+function handleSupplierSelection(selectElement) {
+    const supplierId = selectElement.value;
+    const supplier = suppliers.find(s => s.id == supplierId);
+    
+    // Find the closest product select within the same product row
+    const productRow = selectElement.closest('.product-row');
+    if (!productRow) return;
+    
+    const productSelect = productRow.querySelector('[id^="product"]');
+    if (!productSelect) return;
+    
+    productSelect.innerHTML = '<option value="">Select Product</option>';
+    
+    if (supplier && supplier.products) {
+        const products = supplier.products.split(',').map(p => p.trim());
+        products.forEach(product => {
+            const option = document.createElement('option');
+            option.value = product;
+            option.textContent = product;
+            productSelect.appendChild(option);
+        });
+    }
 }

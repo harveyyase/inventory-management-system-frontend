@@ -11,6 +11,7 @@
     position: fixed;
     left: 0;
     top: 0;
+    
 }
 
 
@@ -158,28 +159,16 @@
     align-items: center;
     padding: 0 20px;
     height: 60px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
-}
-
-
-.content-container {
-    background-color: #fff;
+    background-color: #51b15e83;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
     margin-bottom: 20px;
 }
 
 
-.content-title {
-    border-left: 4px solid #2ecc71;
-    padding-left: 10px;
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 1.2rem;
-}
+
+
+
+
 
 
 /* ===== TABLE STYLES ===== */
@@ -194,6 +183,7 @@ th, td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
+    
 }
 
 
@@ -211,6 +201,7 @@ tr:nth-child(even) {
 /* ===== FORM STYLES ===== */
 .form-group {
     margin-bottom: 15px;
+    color: white;
 }
 
 
@@ -240,7 +231,7 @@ input, select, textarea {
 
 
 .btn-primary {
-    background-color: #2ecc71;
+    background-color: #15a829;
 }
 
 
@@ -260,7 +251,7 @@ input, select, textarea {
 
 
 .btn-danger {
-    background-color: #2ecc71;
+    background-color: #15a829;
 }
 
 
@@ -323,26 +314,28 @@ input, select, textarea {
 
 /* ===== ORDER FORM STYLES ===== */
 .order-form {
-    background-color: #fff;
+    
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
+    background-color: #497249;
 }
+
 
 
 .order-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eee;
+    color: white;
     padding-bottom: 15px;
     margin-bottom: 15px;
 }
 
 
 .order-title {
-    color: #2ecc71;
+    color: white;
     display: flex;
     align-items: center;
 }
@@ -359,7 +352,8 @@ input, select, textarea {
     gap: 15px;
     margin-bottom: 15px;
     padding: 15px;
-    border: 1px solid #eee;
+    border: 1px solid #439243;
+    color: white;
     border-radius: 5px;
     align-items: center;
 }
@@ -384,7 +378,7 @@ input, select, textarea {
 
 
 .remove-btn {
-    background-color: #2ecc71;
+    background-color:#36bd36;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -394,7 +388,7 @@ input, select, textarea {
 
 
 .add-product-btn {
-    background-color: #2ecc71;
+    background-color: #497249;
     color: white;
     border: none;
     padding: 8px 15px;

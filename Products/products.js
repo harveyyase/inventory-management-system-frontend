@@ -1,42 +1,60 @@
-// Populate supplier dropdown
-function populateSupplierDropdown() {
-    const supplierSelect = document.getElementById('supplier1');
-    if (!supplierSelect) return; // Guard against null element
-    
-    supplierSelect.innerHTML = '<option value="">Select Supplier</option>';
-    
-    suppliers.forEach(supplier => {
-        const option = document.createElement('option');
-        option.value = supplier.id;
-        option.textContent = supplier.name;
-        supplierSelect.appendChild(option);
-    });
+// ================================
+// PRODUCT MENU FUNCTIONALITY
+// ================================
+
+function showProductList(event) {
+    if (event) event.preventDefault();
+    document.getElementById('supplierSection').classList.add('hidden');
+    document.getElementById('purchaseOrderSection').classList.add('hidden');
+    document.getElementById('productListView').classList.remove('hidden');
+    document.getElementById('addProductForm').classList.add('hidden');
+    document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active-menu'));
+    document.querySelector('.menu-item:nth-child(3) .menu-link').classList.add('active-menu');
+
+    const productMenuItems = document.querySelectorAll('.menu-item:nth-child(3) .submenu-item');
+    productMenuItems.forEach(item => item.classList.remove('active'));
+    if (event?.target) event.target.classList.add('active');
+    else productMenuItems[0]?.classList.add('active');
+
+    renderProductTable();
 }
 
-// Handle supplier selection (populate product dropdown)
-function handleSupplierSelection(selectElement) {
-    const supplierId = selectElement.value;
-    const supplier = suppliers.find(s => s.id == supplierId);
-    
-    // Find the closest product select within the same product row
-    const productRow = selectElement.closest('.product-row');
-    if (!productRow) return;
-    
-    const productSelect = productRow.querySelector('[id^="product"]');
-    if (!productSelect) return;
-    
-    productSelect.innerHTML = '<option value="">Select Product</option>';
-    
-    if (supplier && supplier.products) {
-        const products = supplier.products.split(',').map(p => p.trim());
-        products.forEach(product => {
-            const option = document.createElement('option');
-            option.value = product;
-            option.textContent = product;
-            productSelect.appendChild(option);
-        });
-    }
+function showAddProductForm(event) {
+    if (event) event.preventDefault();
+    document.getElementById('supplierSection').classList.add('hidden');
+    document.getElementById('purchaseOrderSection').classList.add('hidden');
+    document.getElementById('productListView').classList.add('hidden');
+    document.getElementById('addProductForm').classList.remove('hidden');
+    document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active-menu'));
+    document.querySelector('.menu-item:nth-child(3) .menu-link').classList.add('active-menu');
+
+    const productMenuItems = document.querySelectorAll('.menu-item:nth-child(3) .submenu-item');
+    productMenuItems.forEach(item => item.classList.remove('active'));
+    if (event?.target) event.target.classList.add('active');
+    else productMenuItems[1]?.classList.add('active');
+
+    document.getElementById('productForm')?.reset();
 }
+
+// Dummy product table renderer (replace with real logic)
+function renderProductTable() {
+    const container = document.getElementById('productTableContainer');
+    if (!container) return;
+    container.innerHTML = '<p>Product list goes here...</p>';
+}
+
+// Bind navigation on page load
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('view-product')?.addEventListener('click', showProductList);
+    document.getElementById('add-product')?.addEventListener('click', showAddProductForm);
+    loadSuppliersFromLocalStorage();
+    loadOrdersFromLocalStorage();
+    loadProductsFromLocalStorage();
+});
+
+
+
+
 
 // Submit order
 function submitOrder(e) {

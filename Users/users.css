@@ -19,10 +19,14 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    color: white;
+    font-weight: bold;
   }
  
   table, th, td {
-    border: 1px solid #ccc;
+    border: solid #306630;
+    background-color: #54b454;
+
   }
  
   th, td {
