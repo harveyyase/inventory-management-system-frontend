@@ -126,7 +126,7 @@ window.addEventListener('storage', function(event) {
 
 function initializeStorageHandling() {
     // Initial load from localStorage
-    loadSuppliersFromLocalStorage();
+    loadSuppliersFromAPI();
     loadOrdersFromLocalStorage();
     
     // Force update UI to ensure it's synchronized with the latest data
@@ -140,7 +140,7 @@ function initializeStorageHandling() {
 // Update the existing DOMContentLoaded handler to include these new functions
 document.addEventListener('DOMContentLoaded', function() {
     // Load data from localStorage
-    loadSuppliersFromLocalStorage();
+    loadSuppliersFromAPI();
     loadOrdersFromLocalStorage();
     
     // Set initial view

@@ -47,7 +47,7 @@ function renderProductTable() {
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('view-product')?.addEventListener('click', showProductList);
     document.getElementById('add-product')?.addEventListener('click', showAddProductForm);
-    loadSuppliersFromLocalStorage();
+    loadSuppliersFromAPI();
     loadOrdersFromLocalStorage();
     loadProductsFromLocalStorage();
 });
@@ -224,7 +224,7 @@ function cancelForm() {
  */
 document.addEventListener('DOMContentLoaded', function() {
     // Load data from localStorage
-    loadSuppliersFromLocalStorage();
+    loadSuppliersFromAPI();
     loadOrdersFromLocalStorage();
     
     // Set initial view

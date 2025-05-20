@@ -14,6 +14,8 @@ let purchaseOrderCounter = 1;
  * Local Storage Functions
  */
 // Load suppliers from localStorage
+
+/*
 function loadSuppliersFromLocalStorage() {
     const storedSuppliers = localStorage.getItem('suppliers');
     const storedCounter = localStorage.getItem('supplierCounter');
@@ -27,6 +29,19 @@ function loadSuppliersFromLocalStorage() {
     }
     
     renderSupplierTable();
+}
+*/
+
+async function loadSuppliersFromAPI() {
+    try {
+        const response = await fetch('http://localhost:3000/api/suppliers'); // adjust URL to your API endpoint
+        if (!response.ok) throw new Error('Failed to fetch suppliers');
+        suppliers = await response.json();
+        renderSupplierTable();
+    } catch (error) {
+        console.error(error);
+        alert('Error loading suppliers');
+    }
 }
 
 // Save suppliers to localStorage
@@ -114,7 +129,7 @@ function toggleSection(showSectionId, hideSectionId) {
         // Open supplier submenu
         const supplierSubmenu = document.querySelector('.menu-item:nth-child(4) .submenu');
         if (supplierSubmenu) {
-            closeAllSubmenusExcept(supplierSubmenu);
+            
             supplierSubmenu.classList.add('open');
             const arrow = document.querySelector('.menu-item:nth-child(4) .arrow');
             if (arrow) arrow.textContent = '▾';
@@ -124,7 +139,7 @@ function toggleSection(showSectionId, hideSectionId) {
         // Open purchase order submenu
         const poSubmenu = document.querySelector('.menu-item:nth-child(5) .submenu');
         if (poSubmenu) {
-            closeAllSubmenusExcept(poSubmenu);
+            
             poSubmenu.classList.add('open');
             const arrow = document.querySelector('.menu-item:nth-child(5) .arrow');
             if (arrow) arrow.textContent = '▾';
@@ -154,7 +169,7 @@ function showSupplierList(event) {
     // Open supplier submenu and close others
     const supplierSubmenu = document.querySelector('.menu-item:nth-child(4) .submenu');
     if (supplierSubmenu) {
-        closeAllSubmenusExcept(supplierSubmenu);
+       
         supplierSubmenu.classList.add('open');
         const arrow = document.querySelector('.menu-item:nth-child(4) .arrow');
         if (arrow) arrow.textContent = '▾';
@@ -201,7 +216,7 @@ function showAddSupplierForm(event) {
     // Open supplier submenu and close others
     const supplierSubmenu = document.querySelector('.menu-item:nth-child(4) .submenu');
     if (supplierSubmenu) {
-        closeAllSubmenusExcept(supplierSubmenu);
+        
         supplierSubmenu.classList.add('open');
         const arrow = document.querySelector('.menu-item:nth-child(4) .arrow');
         if (arrow) arrow.textContent = '▾';
@@ -226,5 +241,8 @@ function showAddSupplierForm(event) {
     currentEditId = null;
 }
 
-// Save supplier data
+
+//BACKEND
+
+
 

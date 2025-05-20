@@ -1,3 +1,4 @@
+/*
 function saveSupplier(e) {
     // Prevent default form submission
     if (e) e.preventDefault();
@@ -63,6 +64,62 @@ function saveSupplier(e) {
     // Switch view to supplier list
     showSupplierList();
 }
+*/
+
+async function saveSupplier(e) {
+    if (e) e.preventDefault();
+
+    const name = document.getElementById('supplierName').value;
+    const location = document.getElementById('supplierLocation').value;
+    const email = document.getElementById('contactEmail').value;
+    const productsText = document.getElementById('products').value;
+
+    if (!name || !location || !email) {
+        alert('Please fill all required fields');
+        return;
+    }
+
+    const supplierData = {
+        name,
+        location,
+        email,
+        products: productsText,
+    };
+
+    try {
+        let response;
+        if (currentEditId) {
+            // Update existing supplier via PUT
+            response = await fetch(`http://localhost:3000/api/suppliers/${currentEditId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(supplierData)
+            });
+        } else {
+            // Create new supplier via POST
+            response = await fetch('http://localhost:3000/api/suppliers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(supplierData)
+            });
+
+        }
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+        if (!response.ok) throw new Error('Failed to save supplier');
+        
+        // Reload supplier list after saving
+        await loadSuppliersFromAPI();
+
+        const form = document.getElementById('supplierForm');
+        if (form) form.reset();
+        currentEditId = null;
+        showSupplierList();
+    } catch (error) {
+        console.error(error);
+        alert('Error saving supplier');
+    }
+}
 
 // Render supplier table
 function renderSupplierTable() {
@@ -121,7 +178,7 @@ function editSupplier(id) {
         currentEditId = id;
     }
 }
-
+/*
 // Delete supplier
 function deleteSupplier(id) {
     if (confirm('Are you sure you want to delete this supplier?')) {
@@ -131,6 +188,22 @@ function deleteSupplier(id) {
         saveSuppliersToLocalStorage();
         
         renderSupplierTable();
+    }
+}
+*/
+
+async function deleteSupplier(id) {
+    if (!confirm('Are you sure you want to delete this supplier?')) return;
+
+    try {
+        const response =   await fetch(`http://localhost:3000/api/suppliers/${id}`, { method: 'DELETE' });
+        if (!response.ok) throw new Error('Failed to delete supplier');
+
+        // Reload supplier list after deletion
+        await loadSuppliersFromAPI();
+    } catch (error) {
+        console.error(error);
+        alert('Error deleting supplier');
     }
 }
 
@@ -186,7 +259,7 @@ function showOrderList(event) {
 function showCreateOrder(event) {
 
     
-    loadSuppliersFromLocalStorage();
+    loadSuppliersFromAPI();
     populateSupplierDropdown();
 
     if (event) event.preventDefault();
@@ -210,7 +283,7 @@ function showCreateOrder(event) {
     // Open purchase order submenu and close others
     const poSubmenu = document.querySelector('.menu-item:nth-child(5) .submenu');
     if (poSubmenu) {
-        closeAllSubmenusExcept(poSubmenu);
+        
         poSubmenu.classList.add('open');
         const arrow = document.querySelector('.menu-item:nth-child(5) .arrow');
         if (arrow) arrow.textContent = '▾';
@@ -260,7 +333,10 @@ function populateSupplierDropdown() {
             supplierSelect.appendChild(option);
         });
     } else {
-        console.warn("No suppliers found to populate dropdown");
+         const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'No suppliers available';
+        supplierSelect.appendChild(option);
     }
 }
 
