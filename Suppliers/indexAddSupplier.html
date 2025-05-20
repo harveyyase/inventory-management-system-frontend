@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../dashboard/dashboard.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../Reports/reports.css">
+
 
 
 </head>
@@ -38,21 +40,11 @@
        
         <!-- Reports Menu Item -->
         <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="#" class="menu-link" onclick="toggleSection('reportsSection', 'dashboardSection', 'supplierSection', 'purchaseOrderSection', 'userSection'); ">
                 <i>📄</i> REPORTS
             </a>
         </li>
-       
-        <!-- Product Menu Item -->
-        <li class="menu-item">
-            <a href="#" class="menu-link">
-                <i>📦</i> PRODUCT
-                <span class="arrow">▸</span>
-            </a>
-            <div class="submenu">
-                <!-- Submenu items would go here -->
-            </div>
-        </li>
+            
 
        
         <!-- Supplier Menu Item -->
@@ -137,7 +129,7 @@
        
         <!-- Reports Menu Item -->
         <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="#" class="menu-link" onclick="toggleSection('reportsSection', 'dashboardSection', 'supplierSection', 'purchaseOrderSection', 'userSection'); ">
                 <i>📄</i> REPORTS
             </a>
         </li>
@@ -155,7 +147,7 @@
        
         <!-- Supplier Menu Item -->
         <li class="menu-item">
-            <a href="#" class="menu-link" onclick="toggleSubmenu(this); toggleSection('supplierSection', 'purchaseOrderSection', 'userSection', 'dashboardSection')">
+            <a href="#" class="menu-link" onclick="toggleSubmenu(this); toggleSection('supplierSection', 'purchaseOrderSection', 'userSection', 'dashboardSection'); ">
                 <i>🏭</i> SUPPLIER
                 <span class="arrow">▸</span>
             </a>
@@ -243,6 +235,7 @@
         </div>
     </div>
    
+       
     <!-- Purchase Order Section -->
     <div id="purchaseOrderSection">
         <!-- Purchase Order List View -->
@@ -506,7 +499,7 @@
 <script src="../Users/users.js"></script>
 <script src="suppliers.js"></script>
 <script src="../dashboard/dashboard.js"></script>
-
+<script src="../Reports/reports.js"></script>
 
 </body>
 </html>
