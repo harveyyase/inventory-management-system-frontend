@@ -13,12 +13,17 @@ app.use(bodyParser.json());
 let suppliers = [];
 let supplierCounter = 1;
 
+let purchaseOrders = [];
+let purchaseOrderCounter = 1;
+
 // Routes
 
-// Root route - add this to handle requests to '/'
+// Root route
 app.get('/', (req, res) => {
-    res.send('Welcome to the Suppliers API!');
+    res.send('Welcome to the Suppliers and Purchase Orders API!');
 });
+
+// --- Suppliers API ---
 
 // GET all suppliers
 app.get('/api/suppliers', (req, res) => {
@@ -58,6 +63,25 @@ app.delete('/api/suppliers/:id', (req, res) => {
     const id = parseInt(req.params.id);
     suppliers = suppliers.filter(s => s.id !== id);
     res.status(204).send();
+});
+
+// --- Purchase Orders API ---
+
+// GET all purchase orders
+app.get('/api/purchaseOrders', (req, res) => {
+    res.json(purchaseOrders);
+});
+
+// POST new purchase order
+app.post('/api/purchaseOrders', (req, res) => {
+    const order = {
+        id: purchaseOrderCounter++,
+        ...req.body,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    };
+    purchaseOrders.push(order);
+    res.status(201).json(order);
 });
 
 // Start server

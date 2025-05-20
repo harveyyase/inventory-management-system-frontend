@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('view-product')?.addEventListener('click', showProductList);
     document.getElementById('add-product')?.addEventListener('click', showAddProductForm);
     loadSuppliersFromAPI();
-    loadOrdersFromLocalStorage();
+    loadOrdersFromAPI();
     loadProductsFromLocalStorage();
 });
 
@@ -56,47 +56,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-// Submit order
-function submitOrder(e) {
+async function submitOrder(e) {
     if (e) e.preventDefault();
     
     const productRows = document.querySelectorAll('.product-row');
     const orders = [];
-    
-    // Validate each product row
+
     let isValid = true;
-    
+
     productRows.forEach(row => {
         const supplierSelect = row.querySelector('[id^="supplier"]');
         const productSelect = row.querySelector('[id^="product"]');
         const quantityInput = row.querySelector('[id^="quantity"]');
-        
-        if (!supplierSelect || !productSelect || !quantityInput) {
-            return;
-        }
-        
+
+        if (!supplierSelect || !productSelect || !quantityInput) return;
+
         const supplierId = supplierSelect.value;
         const supplier = suppliers.find(s => s.id == supplierId);
         const productId = productSelect.value;
         const quantity = quantityInput.value;
-        
+
         if (!supplierId || !productId || !quantity) {
             isValid = false;
             return;
         }
-        
+
         orders.push({
             supplier: supplier ? supplier.name : 'Unknown',
             product: productId,
             quantity: quantity
         });
     });
-    
+
     if (!isValid) {
         alert('Please fill all required fields');
         return;
     }
-    
+
     // Create date string
     const now = new Date();
     const dateString = now.toLocaleString('en-US', {
@@ -108,15 +104,10 @@ function submitOrder(e) {
         second: '2-digit',
         hour12: true
     });
-    
-    // Process each order
-    orders.forEach(order => {
-        // Generate batch number
+
+    for (const order of orders) {
         const batchNum = 'PO-' + now.getFullYear() + '-' + purchaseOrderCounter;
-        
-        // Add new purchase order
-        purchaseOrders.push({
-            id: purchaseOrderCounter++,
+        const orderData = {
             batchNum: batchNum,
             product: order.product,
             supplier: order.supplier,
@@ -125,17 +116,25 @@ function submitOrder(e) {
             status: 'Pending',
             orderedBy: 'John Doe',
             createdDate: dateString
-        });
-    });
-    
-    // Save to localStorage
-    saveOrdersToLocalStorage();
-    
-    // Reset form and show order list
+        };
+
+        try {
+            await saveOrdersToAPI(orderData); // Call API for each order
+        } catch (error) {
+            console.error('Error saving order:', error);
+            alert('Failed to submit one of the orders. Please try again.');
+            return;
+        }
+
+        purchaseOrderCounter++; // Increment only after successful save
+    }
+
     document.getElementById('orderForm').reset();
     alert('Order submitted successfully!');
     showOrderList();
+    await loadOrdersFromAPI(); // Reload from API to reflect updates
 }
+
 
 // Render order table
 function renderOrderTable() {
@@ -181,7 +180,7 @@ function receiveOrder(id) {
             order.status = 'Received';
             
             // Save to localStorage
-            saveOrdersToLocalStorage();
+            saveOrdersToAPI();
             
             renderOrderTable();
         }
@@ -196,7 +195,7 @@ function cancelOrder(id) {
             order.status = 'Cancelled';
             
             // Save to localStorage
-            saveOrdersToLocalStorage();
+            saveOrdersToAPI();
             
             renderOrderTable();
         }
@@ -225,7 +224,7 @@ function cancelForm() {
 document.addEventListener('DOMContentLoaded', function() {
     // Load data from localStorage
     loadSuppliersFromAPI();
-    loadOrdersFromLocalStorage();
+    loadOrdersFromAPI();
     
     // Set initial view
     document.getElementById('purchaseOrderSection').classList.remove('hidden');

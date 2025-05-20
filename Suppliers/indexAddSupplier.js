@@ -51,26 +51,54 @@ function saveSuppliersToLocalStorage() {
 }
 
 // Load purchase orders from localStorage
-function loadOrdersFromLocalStorage() {
-    const storedOrders = localStorage.getItem('purchaseOrders');
-    const storedCounter = localStorage.getItem('purchaseOrderCounter');
-    
-    if (storedOrders) {
-        purchaseOrders = JSON.parse(storedOrders);
-    }
-    
-    if (storedCounter) {
-        purchaseOrderCounter = parseInt(storedCounter);
-    }
-    
+async function loadOrdersFromAPI() {
+  try {
+    const response = await fetch('http://localhost:3000/api/purchaseOrders');
+    if (!response.ok) throw new Error('Failed to load orders');
+    purchaseOrders = await response.json();
+
+    // Set counter to max id + 1 to avoid duplicates
+    purchaseOrderCounter = purchaseOrders.reduce(
+      (maxId, order) => Math.max(maxId, order.id), 0
+    ) + 1;
+
     renderOrderTable();
+  } catch (error) {
+    console.error(error);
+    alert('Error loading orders');
+  }
 }
 
-// Save purchase orders to localStorage
-function saveOrdersToLocalStorage() {
-    localStorage.setItem('purchaseOrders', JSON.stringify(purchaseOrders));
-    localStorage.setItem('purchaseOrderCounter', purchaseOrderCounter);
+async function saveOrdersToAPI(orderData) {
+  try {
+    const response = await fetch('http://localhost:3000/api/purchaseOrders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(orderData),
+    });
+
+    if (!response.ok) {
+      const errMsg = await response.text(); // Read error message if available
+      throw new Error(`Failed to save order: ${errMsg}`);
+    }
+
+    const savedOrder = await response.json();
+
+    // Add to local array (optional, depending on whether you fetch orders afterward)
+    purchaseOrders.push(savedOrder);
+
+    // Re-render table
+    renderOrderTable();
+
+    console.log('Order saved successfully:', savedOrder);
+  } catch (error) {
+    console.error('Save failed:', error);
+    alert('Error saving order: ' + error.message);
+  }
 }
+
 
 function closeAllSubmenus() {
     const allSubmenus = document.querySelectorAll('.submenu');
