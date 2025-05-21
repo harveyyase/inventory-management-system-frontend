@@ -29,19 +29,19 @@ Backend routing with Node.js
 
 Project Structure
 
-inventory-management-system-frontend/
+inventory-management-system-frontend/  
 │
-├── css/
-├── dashboard/
-├── images/
-├── Products/
-├── Reports/
-├── Suppliers/
-├── Users/
-├── supplier-backend/
-├── swimlane-diagrams-business-process/
-├── index.html
-└── README.md
+├── css/  
+├── dashboard/  
+├── images/  
+├── Products/  
+├── Reports/  
+├── Suppliers/  
+├── Users/  
+├── supplier-backend/  
+├── swimlane-diagrams-business-process/  
+├── index.html  
+└── README.md  
 
 
 ---
