@@ -1,5 +1,5 @@
-════════════════════════════════════════════════════╗
-║  Inventory Management System - Frontend & Backend ║
+════════════════════════════════════════════════════╗  
+║  Inventory Management System - Frontend & Backend ║  
 ╚════════════════════════════════════════════════════╝
 
 A fully functional Web-Based Inventory Management System designed for small businesses and academic use. Built with HTML, CSS, JavaScript, and a Node.js backend.
