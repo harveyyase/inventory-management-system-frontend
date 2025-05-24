@@ -1,109 +1,107 @@
-📦 Inventory Management System
+# 📦 Inventory Management System
+
 A web-based Inventory Management System developed for academic and small business purposes. It features complete CRUD functionalities, a user authentication system with role-based access control, and organized tabs for managing suppliers, purchase orders, and users.
 
-🌐 Live Demo & Presentation
-📌 Add your presentation link and demo video link here
+## 🌐 Live Demo & Presentation
+📌 *Add your presentation link and demo video link here*
 
-📁 Project Structure
-perl
-Copy
-Edit
+---
+
+## 📁 Project Structure
+
+```
 inventory-management-system/
 │
-├── css/                       # Stylesheets
-├── dashboard/                 # Dashboard (Optional - May be removed)
-├── images/                    # Project Images
-├── Products/                 # Product Management (Optional)
-├── Reports/                  # Report Export Feature (Optional)
-├── Suppliers/                # Supplier Add/View Pages
-├── Users/                    # User Add/View Pages
-├── supplier-backend/         # Node.js Express Backend
-├── swimlane-diagrams-business-process/  # Business Process Models
-├── index.html                # Landing/Login Page
+├── css/                       # Stylesheets  
+├── dashboard/                 # Dashboard (Optional - May be removed)  
+├── images/                    # Project Images  
+├── Products/                 # Product Management (Optional)  
+├── Reports/                  # Report Export Feature (Optional)  
+├── Suppliers/                # Supplier Add/View Pages  
+├── Users/                    # User Add/View Pages  
+├── supplier-backend/         # Node.js Express Backend  
+├── swimlane-diagrams-business-process/  # Business Process Models  
+├── index.html                # Landing/Login Page  
 └── README.md
-✅ Features
-🔐 Login Page — Authenticates users with role-based access.
+```
 
-🧑‍🤝‍🧑 User Management — Add, view, and assign roles (Admin/Employee).
+---
 
-🏪 Supplier Management — Add, view, update, and delete supplier records.
+## ✅ Features  
+  
+- 🔐 **Login Page** — Authenticates users with role-based access.  
+- 🧑‍🤝‍🧑 **User Management** — Add, view, and assign roles (Admin/Employee).  
+- 🏪 **Supplier Management** — Add, view, update, and delete supplier records.  
+- 📦 **Purchase Orders** — Add and view purchase orders.  
+- ⚙️ **Backend API** — RESTful API with Express for suppliers and users.  
+- 🚨 **Alerts & Notifications** — Feedback messages for user actions.  
+- 📂 **File Export (Reports)** — Export system data (under development).  
+- 🧮 **Dashboard** — Displays system stats (may be removed).  
+- 🔑 **Role-Based Access** — Admin has full access; employees have limited access.  
+- 💻 **Desktop-focused UI** — Not mobile responsive.  
+- 📉 **Dropdown Handling** — Dropdown menus close responsively on tab switch.  
+  
+---
+  
+## 🛠️ Tech Stack  
 
-📦 Purchase Orders — Add and view purchase orders.
+- **Frontend**: HTML, CSS, JavaScript  
+- **Backend**: Node.js, Express.js  
+- **Other Tools**: PHP (potential/legacy use), Git & GitHub for version control  
 
-⚙️ Backend API — RESTful API with Express for suppliers and users.
+---  
+  
+## 🧪 CRUD Operations  
+  
+- **Create**: Add suppliers, users, and purchase orders  
+- **Read**: View records via API fetching  
+- **Update**: Edit suppliers and user roles  
+- **Delete**: Remove suppliers and users  
+  
+--- 
 
-🚨 Alerts & Notifications — Feedback messages for user actions.
-
-📂 File Export (Reports) — Export system data (under development).
-
-🧮 Dashboard — Displays system stats (may be removed).
-
-🔑 Role-Based Access — Admin has full access; employees have limited access.
-
-💻 Desktop-focused UI — Not mobile responsive.
-
-📉 Dropdown Handling — Dropdown menus close responsively on tab switch.
-
-🛠️ Tech Stack
-Frontend: HTML, CSS, JavaScript
-
-Backend: Node.js, Express.js
-
-Other Tools: PHP (potential/legacy use), Git & GitHub for version control
-
-🧪 CRUD Operations
-Create: Add suppliers, users, and purchase orders
-
-Read: View records via API fetching
-
-Update: Edit suppliers and user roles
-
-Delete: Remove suppliers and users
-
-🚀 Getting Started
-1. Clone the repository
-bash
-Copy
-Edit
-git clone https://github.com/harveyyase/inventory-management-system-frontend.git
-2. Navigate to the backend folder
-bash
-Copy
-Edit
-cd inventory-management-system-frontend/supplier-backend
-3. Install dependencies
-bash
-Copy
-Edit
-npm install
-4. Start the server
-bash
-Copy
-Edit
-node server.js
-5. Open the system
-Open index.html in your browser.
-
-👥 Group Members
-Harvey Gabriele S. Yase
-
-Neji Cedric A. Tiu
-
-Elcris Jhon Razonable
-
-Louise Gabrielle Arispe
-
-📷 Screenshots
-Add screenshots of the following:
-
-Login Page
-
-Supplier Page (Add + View)
-
-Purchase Order Page
-
-User Management Tab
-
-Reports Tab (if retained)
-
-Dashboard (if retained)
+## 🚀 Getting Started  
+  
+### 1. Clone the repository  
+```bash  
+git clone https://github.com/harveyyase/inventory-management-system-frontend.git  
+```  
+ 
+### 2. Navigate to the backend folder  
+```bash  
+cd inventory-management-system-frontend/supplier-backend  
+```    
+  
+### 3. Install dependencies  
+```bash  
+npm install  
+```  
+  
+### 4. Start the server  
+```bash  
+node server.js  
+```  
+  
+### 5. Open the system  
+Open `index.html` in your browser.  
+  
+---
+  
+## 👥 Group Members    
+  
+- **Harvey Gabriele S. Yase**  
+- **Neji Cedric A. Tiu**  
+- **Elcris Jhon Razonable**  
+- **Louise Gabrielle Arispe**  
+  
+---
+  
+## 📷 Screenshots  
+  
+_Add screenshots of the following:_  
+- Login Page   
+- Supplier Page (Add + View)  
+- Purchase Order Page  
+- User Management Tab  
+- Reports Tab (if retained)  
+- Dashboard (if retained)  
