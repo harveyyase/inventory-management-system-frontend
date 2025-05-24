@@ -108,8 +108,9 @@ _Add screenshots of the following:_
 ---------------------------------------------------------------------------------------     
  ![image](https://github.com/user-attachments/assets/1a80bd57-a474-4529-b809-5f512138fd68)  
 ---------------------------------------------------------------------------------------   
-- User Management Tab  
- ![image](https://github.com/user-attachments/assets/7b934a5d-7c9b-4e6c-9d6e-1a5b9a703d76)  
----------------------------------------------------------------------------------------    
+- User Management Tab
+---------------------------------------------------------------------------------------       
+ ![image](https://github.com/user-attachments/assets/7b934a5d-7c9b-4e6c-9d6e-1a5b9a703d76)    
+---------------------------------------------------------------------------------------      
 - Reports Tab (if retained)  
 - Dashboard (if retained)  
