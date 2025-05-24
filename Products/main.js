@@ -127,7 +127,7 @@ window.addEventListener('storage', function(event) {
 function initializeStorageHandling() {
     // Initial load from localStorage
     loadSuppliersFromAPI();
-    loadOrdersFromLocalStorage();
+    loadOrdersFromAPI();
     
     // Force update UI to ensure it's synchronized with the latest data
     renderSupplierTable();
@@ -141,7 +141,7 @@ function initializeStorageHandling() {
 document.addEventListener('DOMContentLoaded', function() {
     // Load data from localStorage
     loadSuppliersFromAPI();
-    loadOrdersFromLocalStorage();
+    loadOrdersFromAPI();
     
     // Set initial view
     document.getElementById('purchaseOrderSection').classList.remove('hidden');

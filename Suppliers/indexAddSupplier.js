@@ -73,29 +73,21 @@ async function saveOrdersToAPI(orderData) {
   try {
     const response = await fetch('http://localhost:3000/api/purchaseOrders', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderData),
     });
 
     if (!response.ok) {
-      const errMsg = await response.text(); // Read error message if available
+      const errMsg = await response.text();
       throw new Error(`Failed to save order: ${errMsg}`);
     }
 
     const savedOrder = await response.json();
-
-    // Add to local array (optional, depending on whether you fetch orders afterward)
-    purchaseOrders.push(savedOrder);
-
-    // Re-render table
-    renderOrderTable();
-
-    console.log('Order saved successfully:', savedOrder);
+    return savedOrder; // ✅ Return the saved order with ID
   } catch (error) {
     console.error('Save failed:', error);
     alert('Error saving order: ' + error.message);
+    throw error;
   }
 }
 

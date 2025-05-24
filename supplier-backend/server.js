@@ -16,21 +16,22 @@ let supplierCounter = 1;
 let purchaseOrders = [];
 let purchaseOrderCounter = 1;
 
+let users = [];
+let userCounter = 1;
+
 // Routes
 
 // Root route
 app.get('/', (req, res) => {
-    res.send('Welcome to the Suppliers and Purchase Orders API!');
+    res.send('Welcome to the Suppliers, Purchase Orders, and Users API!');
 });
 
 // --- Suppliers API ---
 
-// GET all suppliers
 app.get('/api/suppliers', (req, res) => {
     res.json(suppliers);
 });
 
-// POST new supplier
 app.post('/api/suppliers', (req, res) => {
     const supplier = {
         id: supplierCounter++,
@@ -42,7 +43,6 @@ app.post('/api/suppliers', (req, res) => {
     res.status(201).json(supplier);
 });
 
-// PUT (update) supplier
 app.put('/api/suppliers/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = suppliers.findIndex(s => s.id === id);
@@ -58,7 +58,6 @@ app.put('/api/suppliers/:id', (req, res) => {
     }
 });
 
-// DELETE supplier
 app.delete('/api/suppliers/:id', (req, res) => {
     const id = parseInt(req.params.id);
     suppliers = suppliers.filter(s => s.id !== id);
@@ -67,12 +66,10 @@ app.delete('/api/suppliers/:id', (req, res) => {
 
 // --- Purchase Orders API ---
 
-// GET all purchase orders
 app.get('/api/purchaseOrders', (req, res) => {
     res.json(purchaseOrders);
 });
 
-// POST new purchase order
 app.post('/api/purchaseOrders', (req, res) => {
     const order = {
         id: purchaseOrderCounter++,
@@ -82,6 +79,61 @@ app.post('/api/purchaseOrders', (req, res) => {
     };
     purchaseOrders.push(order);
     res.status(201).json(order);
+});
+
+// Update purchase order by ID
+app.put('/api/purchaseOrders/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = purchaseOrders.findIndex(o => o.id === id);
+
+    if (index !== -1) {
+        purchaseOrders[index] = {
+            ...purchaseOrders[index],
+            ...req.body,
+            updatedAt: new Date().toISOString()
+        };
+        res.json(purchaseOrders[index]);
+    } else {
+        res.status(404).json({ error: 'Purchase order not found' });
+    }
+});
+
+// --- Users API ---
+
+app.get('/api/users', (req, res) => {
+    res.json(users);
+});
+
+app.post('/api/users', (req, res) => {
+    const user = {
+        id: userCounter++,
+        ...req.body,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    };
+    users.push(user);
+    res.status(201).json(user);
+});
+
+app.put('/api/users/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = users.findIndex(u => u.id === id);
+    if (index !== -1) {
+        users[index] = {
+            ...users[index],
+            ...req.body,
+            updatedAt: new Date().toISOString()
+        };
+        res.json(users[index]);
+    } else {
+        res.status(404).json({ error: 'User not found' });
+    }
+});
+
+app.delete('/api/users/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    users = users.filter(u => u.id !== id);
+    res.status(204).send();
 });
 
 // Start server

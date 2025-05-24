@@ -252,7 +252,7 @@ function showOrderList(event) {
         }
     }
     
-    // Update order table
+    // Update order 
     renderOrderTable();
 }
 // Enhanced showCreateOrder to ensure only one view is visible

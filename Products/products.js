@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('add-product')?.addEventListener('click', showAddProductForm);
     loadSuppliersFromAPI();
     loadOrdersFromAPI();
-    loadProductsFromLocalStorage();
+    // loadProductsFromLocalStorage();
 });
 
 
@@ -58,10 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function submitOrder(e) {
     if (e) e.preventDefault();
-    
+
     const productRows = document.querySelectorAll('.product-row');
     const orders = [];
-
     let isValid = true;
 
     productRows.forEach(row => {
@@ -93,7 +92,6 @@ async function submitOrder(e) {
         return;
     }
 
-    // Create date string
     const now = new Date();
     const dateString = now.toLocaleString('en-US', {
         month: 'short',
@@ -119,20 +117,20 @@ async function submitOrder(e) {
         };
 
         try {
-            await saveOrdersToAPI(orderData); // Call API for each order
+            const savedOrder = await saveOrdersToAPI(orderData); // ✅ Get the saved order with ID
+            purchaseOrders.push(savedOrder);                      // ✅ Add to local list for rendering
+            purchaseOrderCounter++;
         } catch (error) {
             console.error('Error saving order:', error);
             alert('Failed to submit one of the orders. Please try again.');
             return;
         }
-
-        purchaseOrderCounter++; // Increment only after successful save
     }
 
     document.getElementById('orderForm').reset();
     alert('Order submitted successfully!');
     showOrderList();
-    await loadOrdersFromAPI(); // Reload from API to reflect updates
+    await loadOrdersFromAPI(); // ✅ Reload from API to reflect accurate IDs and states
 }
 
 
@@ -171,36 +169,45 @@ function renderOrderTable() {
 }
 
 // Receive order
-function receiveOrder(id) {
-    const order = purchaseOrders.find(o => o.id === id);
-    if (order) {
-        const quantity = prompt(`Enter quantity received for order ${order.batchNum}:`, order.quantityOrdered);
-        if (quantity !== null) {
-            order.quantityReceived = parseInt(quantity);
-            order.status = 'Received';
-            
-            // Save to localStorage
-            saveOrdersToAPI();
-            
-            renderOrderTable();
-        }
+async function receiveOrder(id) {
+  const order = purchaseOrders.find(o => o.id === id);
+  if (order) {
+    const quantity = prompt(`Enter quantity received for order ${order.batchNum}:`, order.quantityOrdered);
+    if (quantity !== null) {
+      order.quantityReceived = parseInt(quantity);
+      order.status = 'Received';
+
+      try {
+        await updateOrderInAPI(order); // ✅ Use update function
+        await loadOrdersFromAPI();     // Refresh local copy
+        renderOrderTable();
+      } catch (error) {
+        console.error('Failed to update order:', error);
+      }
     }
+  }
 }
 
+
+
 // Cancel order
-function cancelOrder(id) {
-    if (confirm('Are you sure you want to cancel this order?')) {
-        const order = purchaseOrders.find(o => o.id === id);
-        if (order) {
-            order.status = 'Cancelled';
-            
-            // Save to localStorage
-            saveOrdersToAPI();
-            
-            renderOrderTable();
-        }
+async function cancelOrder(id) {
+  if (confirm('Are you sure you want to cancel this order?')) {
+    const order = purchaseOrders.find(o => o.id === id);
+    if (order) {
+      order.status = 'Cancelled';
+
+      try {
+        await updateOrderInAPI(order); // ✅ Use update function
+        await loadOrdersFromAPI();     // Refresh local copy
+        renderOrderTable();
+      } catch (error) {
+        console.error('Failed to update order:', error);
+      }
     }
+  }
 }
+
 
 /**
  * Common Functions
@@ -313,3 +320,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+async function updateOrderInAPI(orderData) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/purchaseOrders/${orderData.id}`, {
+      method: 'PUT', // or 'PATCH' if your backend supports partial updates
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData),
+    });
+
+    if (!response.ok) {
+      const errMsg = await response.text();
+      throw new Error(`Failed to update order: ${errMsg}`);
+    }
+
+    return await response.json(); // return updated order
+  } catch (error) {
+    console.error('Update failed:', error);
+    alert('Error updating order: ' + error.message);
+    throw error;
+  }
+}

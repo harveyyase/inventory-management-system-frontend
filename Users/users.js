@@ -12,27 +12,32 @@ const modalTitle = document.getElementById('modalTitle');
 const userCount = document.getElementById('userCount');
 
 // Initialize users from localStorage or empty array
-let users = JSON.parse(localStorage.getItem('users')) || [];
-
+//let users = JSON.parse(localStorage.getItem('users')) || [];
+let users = [];
 // Render users in the table
 function renderUsers() {
-  usersTable.innerHTML = '';
-  users.forEach((user, index) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${user.name}</td>
-      <td>${user.username}</td>
-      <td>${user.role}</td>
-      <td>
-        <button class="btn btn-secondary" onclick="editUser(${index})">Edit</button>
-        <button class="btn btn-danger" onclick="deleteUser(${index})">Delete</button>
-      </td>
-    `;
-    usersTable.appendChild(tr);
-  });
-  
-  userCount.textContent = `${users.length} USERS`;
+  fetch('http://localhost:3000/api/users')
+    .then(response => response.json())
+    .then(data => {
+      users = data;
+      usersTable.innerHTML = '';
+      users.forEach((user, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${user.name}</td>
+          <td>${user.username}</td>
+          <td>${user.role}</td>
+          <td>
+            <button class="btn btn-secondary" onclick="editUser(${user.id})">Edit</button>
+            <button class="btn btn-danger" onclick="deleteUser(${user.id})">Delete</button>
+          </td>
+        `;
+        usersTable.appendChild(tr);
+      });
+      userCount.textContent = `${users.length} USERS`;
+    })
+    .catch(err => console.error('Failed to fetch users:', err));
 }
 
 // Open modal for adding or editing a user
@@ -86,32 +91,47 @@ function saveUser(e) {
   const name = nameInput.value.trim();
   const username = usernameInput.value.trim();
   const role = roleInput.value;
+  const id = editIndexInput.value;
 
-  const index = editIndexInput.value;
-  if (index !== '') {
-    users[index] = { name, username, role };
+  const payload = { name, username, role };
+
+  if (id) {
+    // Edit user
+    fetch(`http://localhost:3000/api/users/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(res => res.json())
+      .then(() => {
+        renderUsers();
+        closeModalFunc();
+      });
   } else {
-    users.push({ name, username, role });
+    // Add new user
+    fetch('http://localhost:3000/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(res => res.json())
+      .then(() => {
+        renderUsers();
+        closeModalFunc();
+      });
   }
-
-  localStorage.setItem('users', JSON.stringify(users));
-  renderUsers();
-  closeModalFunc();
-}
-
-// Edit user
-function editUser(index) {
-  openModal(true, index);
 }
 
 // Delete user
-function deleteUser(index) {
+function deleteUser(id) {
   if (confirm('Are you sure you want to delete this user?')) {
-    users.splice(index, 1);
-    localStorage.setItem('users', JSON.stringify(users));
-    renderUsers();
+    fetch(`http://localhost:3000/api/users/${id}`, {
+      method: 'DELETE'
+    })
+      .then(() => renderUsers());
   }
 }
+
 
 
 // Function to show user list and hide the modal
@@ -172,3 +192,15 @@ window.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   renderUsers();
 });
+
+function editUser(id) {
+  const user = users.find(u => u.id === id);
+  if (user) {
+    nameInput.value = user.name;
+    usernameInput.value = user.username;
+    roleInput.value = user.role;
+    editIndexInput.value = user.id;
+    modalTitle.textContent = 'Edit User';
+    userModal.style.display = 'block';
+  }
+}
