@@ -35,8 +35,6 @@ inventory-management-system/
 - 📦 **Purchase Orders** — Add and view purchase orders.  
 - ⚙️ **Backend API** — RESTful API with Express for suppliers and users.  
 - 🚨 **Alerts & Notifications** — Feedback messages for user actions.  
-- 📂 **File Export (Reports)** — Export system data (under development).  
-- 🧮 **Dashboard** — Displays system stats (may be removed).  
 - 🔑 **Role-Based Access** — Admin has full access; employees have limited access.  
 - 💻 **Desktop-focused UI** — Not mobile responsive.  
 - 📉 **Dropdown Handling** — Dropdown menus close responsively on tab switch.  
@@ -112,5 +110,4 @@ _Add screenshots of the following:_
 ---------------------------------------------------------------------------------------       
  ![image](https://github.com/user-attachments/assets/7b934a5d-7c9b-4e6c-9d6e-1a5b9a703d76)    
 ---------------------------------------------------------------------------------------      
-- Reports Tab (if retained)  
-- Dashboard (if retained)  
+
